@@ -8,9 +8,12 @@ function DictionaryApp() {
   ]);
 
   const [searchTerm, setSearchTerm] = useState("");
-  const [result, setResult] = useState("");
+  const [result, setResult] = useState(null);
+  const [searched, setSearched] = useState(false);
 
   const handleSearch = () => {
+    setSearched(true);
+
     const found = dictionary.find(
       (item) => item.word.toLowerCase() === searchTerm.toLowerCase()
     );
@@ -24,7 +27,6 @@ function DictionaryApp() {
 
   return (
     <div>
-      {/* IMPORTANT: required by test */}
       <h1>Dictionary App</h1>
 
       <input
@@ -36,17 +38,18 @@ function DictionaryApp() {
 
       <button onClick={handleSearch}>Search</button>
 
-      {/* Always show Definition section after search attempt */}
-      {result && result !== "Word not found in the dictionary." && (
+      {/* IMPORTANT: Always render Definition section after search */}
+      {searched && (
         <div>
-          <h3>Definition:</h3>
-          <p>{result}</p>
+          {result !== "Word not found in the dictionary." ? (
+            <>
+              <h3>Definition:</h3>
+              <p>{result}</p>
+            </>
+          ) : (
+            <p>Word not found in the dictionary.</p>
+          )}
         </div>
-      )}
-
-      {/* Required exact message */}
-      {result === "Word not found in the dictionary." && (
-        <p>Word not found in the dictionary.</p>
       )}
     </div>
   );
