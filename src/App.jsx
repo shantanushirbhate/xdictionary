@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./App.css"
 
 function DictionaryApp() {
   const [dictionary] = useState([
@@ -9,11 +10,8 @@ function DictionaryApp() {
 
   const [searchTerm, setSearchTerm] = useState("");
   const [result, setResult] = useState(null);
-  const [searched, setSearched] = useState(false);
 
   const handleSearch = () => {
-    setSearched(true);
-
     const found = dictionary.find(
       (item) => item.word.toLowerCase() === searchTerm.toLowerCase()
     );
@@ -38,19 +36,18 @@ function DictionaryApp() {
 
       <button onClick={handleSearch}>Search</button>
 
-      {/* IMPORTANT: Always render Definition section after search */}
-      {searched && (
-        <div>
-          {result !== "Word not found in the dictionary." ? (
-            <>
-              <h3>Definition:</h3>
-              <p>{result}</p>
-            </>
-          ) : (
-            <p>Word not found in the dictionary.</p>
-          )}
-        </div>
-      )}
+      {/* ALWAYS SHOW THIS */}
+      <div>
+        <h3>Definition:</h3>
+
+        {result && result !== "Word not found in the dictionary." ? (
+          <p>{result}</p>
+        ) : result === "Word not found in the dictionary." ? (
+          <p>Word not found in the dictionary.</p>
+        ) : (
+          <p></p>
+        )}
+      </div>
     </div>
   );
 }
